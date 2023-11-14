@@ -49,11 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }),
     );
 
-    if (convert.jsonDecode(response.body)['status'] == 'success') {
-      showToast(const Text('Login Success'));
-    } else {
-      showToast(const Text('Login Failed'));
-    }
+    convert.jsonDecode(response.body)['status'] == 'success'
+        ? showToast(const Text('Login Success'))
+        : showToast(const Text('Login Failed'));
   }
 
   void showToast(Text text) {
@@ -71,12 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('SS (super scommesse) REDENTORE')),
+      appBar: AppBar(title: const Text('SS (SUPER SCOMMESSE) REDENTORE')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(40.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Image(image: AssetImage('assets/logo.png'), height: 300),
+            const SizedBox(height: 16 * 3.0),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               decoration: BoxDecoration(
