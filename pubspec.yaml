@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.0
   fluttertoast: ^8.2.4
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -41,5 +42,11 @@ flutter:
 
   uses-material-design: true
 
+  fonts:
+    - family: CustomIcons
+      fonts:
+        - asset: fonts/CustomIcons.ttf
+
   assets:
     - assets/logo.png
+    # - fonts/CustomIcons.ttf
