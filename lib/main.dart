@@ -7,6 +7,8 @@ import 'package:ssredentore/themes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ssredentore/presentation/custom_icons_icons.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeClass.lightTheme,
       darkTheme: ThemeClass.darkTheme,
       themeMode: ThemeMode.system,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const MyHomePage(),
     );
   }
@@ -97,63 +101,67 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('SS (SUPER SCOMMESSE) REDENTORE')),
       body: Padding(
         padding: const EdgeInsets.all(40.0),
-        child: Column(
-          children: <Widget>[
-            const Image(image: AssetImage('assets/logo.png'), height: 250),
-            const SizedBox(height: 16 * 2.0),
-            buildTextField('Username', _usernameController, false),
-            const SizedBox(height: 16.0),
-            buildTextField('Password', _passwordController, true),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Are you new?'),
-                const SizedBox(width: 8.0),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpPage(),
-                      ),
-                    );
-                  },
-                  child: const Text('Sign up'),
-                ),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Login'),
-            ),
-            const SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    _urlLauncher(Uri(
-                        scheme: 'https',
-                        host: 'github.com',
-                        path: '/CrazyPingu'));
-                  },
-                  child: const Icon(CustomIcons.github),
-                ),
-                TextButton(
-                  onPressed: () {
-                    _urlLauncher(Uri(
-                        scheme: 'https',
-                        host: 'www.instagram.com',
-                        path: '/detu_s'));
-                  },
-                  child: const Icon(CustomIcons.instagram),
-                ),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 90.0),
+              const Image(image: AssetImage('assets/logo.png'), height: 250),
+              const SizedBox(height: 16 * 2.0),
+              buildTextField(AppLocalizations.of(context)!.username,
+                  _usernameController, false),
+              const SizedBox(height: 16.0),
+              buildTextField(AppLocalizations.of(context)!.password,
+                  _passwordController, true),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(AppLocalizations.of(context)!.dont_have_account),
+                  const SizedBox(width: 8.0),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpPage(),
+                        ),
+                      );
+                    },
+                    child: Text(AppLocalizations.of(context)!.signup),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: _login,
+                child: Text(AppLocalizations.of(context)!.login),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      _urlLauncher(Uri(
+                          scheme: 'https',
+                          host: 'github.com',
+                          path: '/CrazyPingu'));
+                    },
+                    child: const Icon(CustomIcons.github),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _urlLauncher(Uri(
+                          scheme: 'https',
+                          host: 'www.instagram.com',
+                          path: '/detu_s'));
+                    },
+                    child: const Icon(CustomIcons.instagram),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
