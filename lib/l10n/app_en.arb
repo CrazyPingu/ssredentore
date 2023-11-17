@@ -2,6 +2,7 @@
   "already_have_account": "Already have an account?",
   "confirm_password": "Confirm Password",
   "dont_have_account": "Don't have an account?",
+  "empty_fields": "Username and password cannot be empty",
   "login": "Login",
   "login_failed": "Wrong password or username",
   "login_success": "Login success",

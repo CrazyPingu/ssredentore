@@ -28,15 +28,20 @@ class _SignUpPageState extends State<SignUpPage> {
           AppLocalizations.of(context)!.passwords_dont_match);
       return;
     }
-
-    if (!await QueryFirebase.checkIfUserExists(
+    if (await QueryFirebase.addUser(
         username,
+        password,
         AppLocalizations.of(context)!.user_already_exists,
         AppLocalizations.of(context)!.user_created)) {
-      return;
+      //  redirect to login
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ),
+      );
     }
-
-    QueryFirebase.addUser(username, password);
   }
 
   @override
@@ -78,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     AppLocalizations.of(context)!.already_have_account,
                     AppLocalizations.of(context)!.login,
                     context,
-                    const MyHomePage()),
+                    const LoginPage()),
 
                 // Add a button to sign up
                 ElevatedButton(

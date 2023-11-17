@@ -39,17 +39,18 @@ class QueryFirebase {
     return querySnapshot.docs.isNotEmpty;
   }
 
-  static Future<bool> addUser(String username, String password) async {
+  static Future<bool> addUser(String username, String password,
+      [String? textToastFalse, String? textToastTrue]) async {
     // Check if the user exists
-    if (await checkIfUserExists(username)) {
+    if (!await checkIfUserExists(username, textToastFalse, textToastTrue)) {
       return false;
     }
 
     // Add the user
-    FirebaseFirestore.instance.collection('users').doc(username).set({
-      'username': username,
-      'password': password,
-    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(username)
+        .set({'username': username, 'password': password, 'token': 100});
     return true;
   }
 }

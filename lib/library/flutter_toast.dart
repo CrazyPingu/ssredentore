@@ -9,7 +9,7 @@ class FlutterToast {
   static void showToast(String text) {
     Fluttertoast.showToast(
         msg: text,
-        toastLength: Toast.LENGTH_SHORT,
+        // toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey,

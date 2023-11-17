@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:ssredentore/library/flutter_toast.dart';
 import 'firebase_options.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ssredentore/library/gui_shortcute.dart';
 import 'package:ssredentore/library/query_firebase.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:ssredentore/library/custom_icons_icons.dart';
-import 'package:ssredentore/signup.dart';
 import 'package:ssredentore/themes.dart';
+import 'package:ssredentore/home_page.dart';
+import 'package:ssredentore/signup.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,19 +34,19 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const MyHomePage(),
+      home: const LoginPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -52,12 +54,25 @@ class _MyHomePageState extends State<MyHomePage> {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
-    QueryFirebase.loginUser(
+    if (username.isEmpty || password.isEmpty) {
+      FlutterToast.showToast(AppLocalizations.of(context)!.empty_fields);
+      return;
+    }
+
+    if (await QueryFirebase.loginUser(
       username,
       password,
       AppLocalizations.of(context)!.login_failed,
       // AppLocalizations.of(context)!.login_success,
-    );
+    )) {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    }
   }
 
   void _urlLauncher(Uri url) async {
@@ -100,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: _login,
                 child: Text(AppLocalizations.of(context)!.login),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: GuiShortcut.defaultHeightSizedBox),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -108,17 +123,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       _urlLauncher(Uri(
                           scheme: 'https',
-                          host: 'github.com',
-                          path: '/CrazyPingu'));
+                          host: 'www.ssredentore.org',
+                          path: '/squadre/calcio-a-5-m/'));
                     },
-                    child: const Icon(CustomIcons.github),
+                    child: const Icon(CustomIcons.soccerBall),
                   ),
                   TextButton(
                     onPressed: () {
                       _urlLauncher(Uri(
                           scheme: 'https',
                           host: 'www.instagram.com',
-                          path: '/detu_s'));
+                          path: '/asdredentorem/'));
                     },
                     child: const Icon(CustomIcons.instagram),
                   ),
