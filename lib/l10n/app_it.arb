@@ -1,8 +1,14 @@
 {
+  "already_have_account": "Hai giá un account?",
   "confirm_password": "Conferma Password",
   "dont_have_account": "Non hai un account?",
   "login": "Accedi",
+  "login_failed": "Username o password sbagliati",
+  "login_success": "Accesso effettuato con successo",
   "password": "Password",
+  "passwords_dont_match": "Le password non corrispondono",
   "signup": "Registrati",
+  "user_already_exists": "Utente già esistente",
+  "user_created": "Utente creato",
   "username": "Nome utente"
 }
