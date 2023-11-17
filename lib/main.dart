@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:ssredentore/library/gui_shortcute.dart';
+import 'package:ssredentore/library/query_firebase.dart';
+import 'package:ssredentore/library/custom_icons_icons.dart';
 import 'package:ssredentore/signup.dart';
 import 'package:ssredentore/themes.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:ssredentore/presentation/custom_icons_icons.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -45,48 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
-    var response = await http.post(
-      Uri.parse('https://detu.ddns.net/redentore/login.php'),
-      headers: {"Content-Type": "application/json"},
-      body: convert.jsonEncode({
-        'username': username,
-        'password': password,
-      }),
-    );
-
-    convert.jsonDecode(response.body)['status'] == 'success'
-        ? showToast(const Text('Login Success'))
-        : showToast(const Text('Login Failed'));
-  }
-
-  void showToast(Text text) {
-    Fluttertoast.showToast(
-      msg: text.data.toString(),
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.grey,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
-  }
-
-  Widget buildTextField(
-      String labelText, TextEditingController controller, bool obscureText) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: InputBorder.none,
-        ),
-      ),
+    QueryFirebase.loginUser(
+      username,
+      password,
+      AppLocalizations.of(context)!.login_failed,
+      // AppLocalizations.of(context)!.login_success,
     );
   }
 
@@ -109,29 +79,23 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 90.0),
               const Image(image: AssetImage('assets/logo.png'), height: 250),
               const SizedBox(height: 16 * 2.0),
-              buildTextField(AppLocalizations.of(context)!.username,
-                  _usernameController, false),
-              const SizedBox(height: 16.0),
-              buildTextField(AppLocalizations.of(context)!.password,
-                  _passwordController, true),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(AppLocalizations.of(context)!.dont_have_account),
-                  const SizedBox(width: 8.0),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignUpPage(),
-                        ),
-                      );
-                    },
-                    child: Text(AppLocalizations.of(context)!.signup),
-                  ),
-                ],
-              ),
+
+              // Create username field
+              GuiShortcut.buildTextField(AppLocalizations.of(context)!.username,
+                  _usernameController, Theme.of(context).colorScheme),
+
+              // Create password field
+              GuiShortcut.buildTextField(AppLocalizations.of(context)!.password,
+                  _passwordController, Theme.of(context).colorScheme, false),
+
+              // Create a row to switch between login and signup
+              GuiShortcut.buildRowSwitchLoginSignup(
+                  AppLocalizations.of(context)!.dont_have_account,
+                  AppLocalizations.of(context)!.signup,
+                  context,
+                  const SignUpPage()),
+
+              // Create a button to login
               ElevatedButton(
                 onPressed: _login,
                 child: Text(AppLocalizations.of(context)!.login),

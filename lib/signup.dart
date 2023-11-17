@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:ssredentore/main.dart';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ssredentore/library/flutter_toast.dart';
+import 'package:ssredentore/library/gui_shortcute.dart';
+import 'package:ssredentore/library/query_firebase.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -16,79 +18,76 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  void _signUp() {
+  Future<void> _signUp() async {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
+    final String confirmPassword = _confirmPasswordController.text;
 
-    // Add your signup logic here
-    // For example, you can send a signup request to your server
+    if (confirmPassword != password) {
+      FlutterToast.showToast(
+          AppLocalizations.of(context)!.passwords_dont_match);
+      return;
+    }
+
+    if (!await QueryFirebase.checkIfUserExists(
+        username,
+        AppLocalizations.of(context)!.user_already_exists,
+        AppLocalizations.of(context)!.user_created)) {
+      return;
+    }
+
+    QueryFirebase.addUser(username, password);
   }
 
   @override
   Widget build(BuildContext context) {
     return Localizations(
-        locale: AppLocalizations.supportedLocales[0],
-        delegates: AppLocalizations.localizationsDelegates,
-        child: Scaffold(
-          body: Padding(
+      locale: AppLocalizations.supportedLocales[0],
+      delegates: AppLocalizations.localizationsDelegates,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
             padding: const EdgeInsets.all(40.0),
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 90.0),
                 const Image(image: AssetImage('assets/logo.png'), height: 250),
-                const SizedBox(height: 16 * 2.0),
-                buildTextField(AppLocalizations.of(context)!.username,
-                    _usernameController),
-                const SizedBox(height: 16.0),
-                buildTextField(AppLocalizations.of(context)!.password,
-                    _passwordController),
-                const SizedBox(height: 16.0),
-                buildTextField(AppLocalizations.of(context)!.confirm_password,
-                    _confirmPasswordController),
-                const SizedBox(height: 16.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text('Already have an account?'),
-                    const SizedBox(width: 8.0),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MyHomePage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Login'),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: GuiShortcut.defaultHeightSizedBox * 2.0),
+
+                // Create username field
+                GuiShortcut.buildTextField(
+                    AppLocalizations.of(context)!.username,
+                    _usernameController,
+                    Theme.of(context).colorScheme),
+
+                // Create password field
+                GuiShortcut.buildTextField(
+                    AppLocalizations.of(context)!.password,
+                    _passwordController,
+                    Theme.of(context).colorScheme),
+
+                // Create confirm password field
+                GuiShortcut.buildTextField(
+                    AppLocalizations.of(context)!.confirm_password,
+                    _confirmPasswordController,
+                    Theme.of(context).colorScheme,
+                    false),
+
+                // Add a row with a button to switch to the login page
+                GuiShortcut.buildRowSwitchLoginSignup(
+                    AppLocalizations.of(context)!.already_have_account,
+                    AppLocalizations.of(context)!.login,
+                    context,
+                    const MyHomePage()),
+
+                // Add a button to sign up
                 ElevatedButton(
                   onPressed: _signUp,
-                  child: const Text('Sign Up'),
+                  child: Text(AppLocalizations.of(context)!.signup),
                 ),
               ],
             ),
           ),
-        ));
-  }
-
-  Widget buildTextField(
-    String labelText,
-    TextEditingController controller,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
-      ),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: InputBorder.none,
         ),
       ),
     );
