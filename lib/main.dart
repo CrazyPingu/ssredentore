@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ssredentore/library/flutter_toast.dart';
-import 'firebase_options.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:ssredentore/library/shared_preferences.dart';
+import 'package:ssredentore/useful/routes.dart';
 import 'package:ssredentore/library/gui_shortcute.dart';
 import 'package:ssredentore/library/query_firebase.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:ssredentore/library/custom_icons_icons.dart';
-import 'package:ssredentore/themes.dart';
-import 'package:ssredentore/home_page.dart';
-import 'package:ssredentore/signup.dart';
+import 'package:ssredentore/useful/themes.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +29,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SSREDENTORE',
+      initialRoute: Routes.loginLabel,
+      routes: Routes.getRoutes(),
       theme: ThemeClass.lightTheme,
       darkTheme: ThemeClass.darkTheme,
       themeMode: ThemeMode.system,
@@ -49,6 +51,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _rememberMe = false;
 
   Future<void> _login() async {
     final String username = _usernameController.text;
@@ -65,13 +68,13 @@ class _LoginPageState extends State<LoginPage> {
       AppLocalizations.of(context)!.login_failed,
       // AppLocalizations.of(context)!.login_success,
     )) {
+      // Save the username if the user wants to remain logged in
+      _rememberMe
+          ? SharedPreference.setLogin(username)
+          : SharedPreference.deleteLogin();
+
       // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
+      Routes.redirectToHome(context);
     }
   }
 
@@ -81,6 +84,20 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void _checkRedirect() async {
+    String login = await SharedPreference.getLogin();
+    if (login != '') {
+      // ignore: use_build_context_synchronously
+      Routes.redirectToHome(context);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkRedirect();
   }
 
   @override
@@ -107,8 +124,24 @@ class _LoginPageState extends State<LoginPage> {
               GuiShortcut.buildRowSwitchLoginSignup(
                   AppLocalizations.of(context)!.dont_have_account,
                   AppLocalizations.of(context)!.signup,
-                  context,
-                  const SignUpPage()),
+                  Routes.redirectToSignup,
+                  context),
+
+              // add row remain logged with checkbox
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(AppLocalizations.of(context)!.remember_me),
+                  Checkbox(
+                    value: _rememberMe,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _rememberMe = value!;
+                      });
+                    },
+                  ),
+                ],
+              ),
 
               // Create a button to login
               ElevatedButton(

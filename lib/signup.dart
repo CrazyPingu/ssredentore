@@ -1,9 +1,9 @@
-import 'package:ssredentore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ssredentore/library/flutter_toast.dart';
 import 'package:ssredentore/library/gui_shortcute.dart';
 import 'package:ssredentore/library/query_firebase.dart';
+import 'package:ssredentore/useful/routes.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -35,12 +35,7 @@ class _SignUpPageState extends State<SignUpPage> {
         AppLocalizations.of(context)!.user_created)) {
       //  redirect to login
       // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ),
-      );
+      Routes.redirectToLogin(context);
     }
   }
 
@@ -82,8 +77,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 GuiShortcut.buildRowSwitchLoginSignup(
                     AppLocalizations.of(context)!.already_have_account,
                     AppLocalizations.of(context)!.login,
-                    context,
-                    const LoginPage()),
+                    Routes.redirectToLogin,
+                    context),
 
                 // Add a button to sign up
                 ElevatedButton(

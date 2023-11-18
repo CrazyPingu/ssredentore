@@ -19,6 +19,7 @@ dependencies:
   intl: any
   firebase_core: ^2.22.0
   cloud_firestore: ^4.13.1
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

@@ -1,24 +1,28 @@
+library;
+
 import 'package:flutter/material.dart';
 
 class ThemeClass {
+  ThemeClass._();
+
   Color lightPrimaryColor = Colors.deepPurple;
-  Color lightPrimaryColorAccent = Colors.deepPurpleAccent;
+  Color lightAccentColor = Colors.deepPurpleAccent;
   Color darkPrimaryColor = Colors.deepOrange;
-  Color darkPrimaryColorAccent = Colors.deepOrangeAccent;
+  Color darkAccentColor = Colors.deepOrangeAccent;
 
   static ThemeData lightTheme = ThemeData(
     primaryColor: ThemeData.light().scaffoldBackgroundColor,
     colorScheme: const ColorScheme.light().copyWith(
-      primary: _themeClass.lightPrimaryColor,
+      primary: ThemeClass._().lightPrimaryColor,
+      secondary: ThemeClass._().lightAccentColor,
     ),
   );
 
   static ThemeData darkTheme = ThemeData(
     primaryColor: ThemeData.dark().scaffoldBackgroundColor,
     colorScheme: const ColorScheme.dark().copyWith(
-      primary: _themeClass.darkPrimaryColor,
+      primary: ThemeClass._().darkPrimaryColor,
+      secondary: ThemeClass._().darkAccentColor,
     ),
   );
 }
-
-ThemeClass _themeClass = ThemeClass();

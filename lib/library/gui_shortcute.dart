@@ -33,7 +33,7 @@ class GuiShortcut {
   }
 
   static Widget buildRowSwitchLoginSignup(String textLabel, String textButton,
-      BuildContext context, StatefulWidget newPage) {
+      Function newPage, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -41,12 +41,7 @@ class GuiShortcut {
         const SizedBox(width: 8.0),
         TextButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => newPage,
-              ),
-            );
+            newPage(context);
           },
           child: Text(textButton),
         ),
