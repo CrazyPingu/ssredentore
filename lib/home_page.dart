@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:ssredentore/fragment/settings_page.dart';
+import 'package:ssredentore/home/settings_page.dart';
 import 'package:ssredentore/library/custom_icons_icons.dart';
 
 class HomePage extends StatefulWidget {

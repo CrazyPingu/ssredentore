@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ssredentore/library/shared_preferences.dart';
-import 'package:ssredentore/useful/routes.dart';
+import 'package:ssredentore/utilities/routes.dart';
 
 class SettingsFragment extends StatefulWidget {
   const SettingsFragment({super.key});

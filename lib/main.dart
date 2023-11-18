@@ -1,12 +1,12 @@
 import 'package:ssredentore/library/flutter_toast.dart';
 import 'package:ssredentore/library/shared_preferences.dart';
-import 'package:ssredentore/useful/routes.dart';
+import 'package:ssredentore/utilities/routes.dart';
 import 'package:ssredentore/library/gui_shortcute.dart';
 import 'package:ssredentore/library/query_firebase.dart';
 import 'package:ssredentore/library/custom_icons_icons.dart';
-import 'package:ssredentore/useful/themes.dart';
+import 'package:ssredentore/utilities/themes.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'utilities/firebase_options.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
