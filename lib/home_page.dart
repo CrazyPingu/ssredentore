@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
       'Index 0: Home',
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: Calendar',
     ),
     const SettingsFragment(),
   ];
@@ -34,10 +34,17 @@ class _HomePageState extends State<HomePage> {
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: NavigationBar(
+          indicatorColor: Theme.of(context).colorScheme.secondary,
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
           destinations: <Widget>[
             NavigationDestination(
               icon: const Icon(CustomIcons.soccerBall),
-              label: 'Home',
+              label: AppLocalizations.of(context)!.home,
             ),
             NavigationDestination(
               icon: const Icon(Icons.calendar_month),
@@ -48,13 +55,6 @@ class _HomePageState extends State<HomePage> {
               label: AppLocalizations.of(context)!.settings,
             ),
           ],
-          indicatorColor: Theme.of(context).colorScheme.secondary,
-          selectedIndex: _selectedIndex,
-          onDestinationSelected: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
         ),
       ),
     );

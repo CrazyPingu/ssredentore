@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:ssredentore/library/flutter_toast.dart';
-import 'package:ssredentore/library/gui_shortcute.dart';
-import 'package:ssredentore/library/query_firebase.dart';
+import 'package:ssredentore/utilities/flutter_toast.dart';
+import 'package:ssredentore/utilities/gui_shortcut.dart';
+import 'package:ssredentore/utilities/query_firebase.dart';
 import 'package:ssredentore/utilities/routes.dart';
 
 class SignUpPage extends StatefulWidget {

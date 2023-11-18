@@ -1,7 +1,7 @@
 library;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ssredentore/library/flutter_toast.dart';
+import 'package:ssredentore/utilities/flutter_toast.dart';
 
 class QueryFirebase {
   QueryFirebase._();
