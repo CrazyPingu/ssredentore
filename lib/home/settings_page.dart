@@ -7,8 +7,11 @@ import 'package:ssredentore/utilities/routes.dart';
 class SettingsFragment extends StatefulWidget {
   final ThemeMode selectedTheme;
   final void Function(ThemeMode theme) onThemeChanged;
+  final BuildContext contextPassed;
 
-  const SettingsFragment(this.selectedTheme, this.onThemeChanged, {super.key});
+  const SettingsFragment(
+      this.selectedTheme, this.onThemeChanged, this.contextPassed,
+      {super.key});
 
   @override
   State<SettingsFragment> createState() => _SettingsFragmentState();
@@ -21,6 +24,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
   void initState() {
     super.initState();
     selectedTheme = widget.selectedTheme;
+    SharedPreference.getTheme().then((value) {
+      selectedTheme = value;
+    });
   }
 
   @override
@@ -39,7 +45,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   ElevatedButton(
                     onPressed: () {
                       SharedPreference.deleteLogin();
-                      Routes.redirectToLogin(context);
+                      Routes.redirectToLogin(widget.contextPassed);
                     },
                     child: Text(AppLocalizations.of(context)!.logout),
                   ),
@@ -52,31 +58,23 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   const SizedBox(height: GuiShortcut.defaultHeightSizedBox),
 
                   // Create a dropdown to select the theme
-                  DropdownMenu<ThemeData>(
-                    initialSelection: selectedTheme == ThemeMode.light
-                        ? ThemeData.dark()
-                        : ThemeData.light(),
+                  DropdownMenu<ThemeMode>(
+                    initialSelection: selectedTheme,
                     dropdownMenuEntries: [
                       DropdownMenuEntry(
-                          value: ThemeData.light(),
+                          value: ThemeMode.light,
                           label: AppLocalizations.of(context)!.light_theme),
                       DropdownMenuEntry(
-                          value: ThemeData.dark(),
+                          value: ThemeMode.dark,
                           label: AppLocalizations.of(context)!.dark_theme),
-                      // DropdownMenuEntry(
-                      //     value: SchedulerBinding.instance.platformDispatcher
-                      //                 .platformBrightness ==
-                      //             Brightness.dark
-                      //         ? ThemeData.dark()
-                      //         : ThemeData.light(),
-                      //     label: AppLocalizations.of(context)!
-                      //         .follow_system_theme),
+                      DropdownMenuEntry(
+                          value: ThemeMode.system,
+                          label: AppLocalizations.of(context)!
+                              .follow_system_theme),
                     ],
-                    onSelected: (ThemeData? theme) {
+                    onSelected: (ThemeMode? theme) {
                       setState(() {
-                        selectedTheme = theme == ThemeData.light()
-                            ? ThemeMode.light
-                            : ThemeMode.dark;
+                        selectedTheme = theme!;
                         widget.onThemeChanged(selectedTheme);
                       });
                     },

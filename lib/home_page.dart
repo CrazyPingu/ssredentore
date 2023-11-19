@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ssredentore/home/settings_page.dart';
 import 'package:ssredentore/library/custom_icons_icons.dart';
+import 'package:ssredentore/utilities/routes.dart';
 import 'package:ssredentore/utilities/shared_preferences.dart';
 import 'package:ssredentore/utilities/themes.dart';
 
@@ -22,12 +23,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _pageController = PageController(initialPage: _selectedIndex);
 
-    setState(() {
-      SharedPreference.getTheme().then((value) {
-        value == ThemeData.dark()
-            ? selectedTheme = ThemeMode.dark
-            : selectedTheme = ThemeMode.light;
-      });
+    SharedPreference.getTheme().then((value) {
+      selectedTheme = value;
     });
   }
 
@@ -41,6 +38,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectedTheme = theme;
     });
+    SharedPreference.setTheme(theme);
   }
 
   late final List<Widget> _widgetOptions = <Widget>[
@@ -50,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     const Text(
       'Index 1: Calendar',
     ),
-    SettingsFragment(selectedTheme, _onThemeChanged),
+    SettingsFragment(selectedTheme, _onThemeChanged, context),
   ];
 
   @override
@@ -59,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       theme: ThemeClass.lightTheme,
       darkTheme: ThemeClass.darkTheme,
       themeMode: selectedTheme,
+      routes: Routes.getRoutes(),
       home: Localizations(
         locale: AppLocalizations.supportedLocales[0],
         delegates: AppLocalizations.localizationsDelegates,

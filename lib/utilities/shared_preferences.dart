@@ -8,6 +8,7 @@ class SharedPreference {
 
   static const String labelDarkTheme = 'dark_theme';
   static const String labelLightTheme = 'light_theme';
+  static const String labelSystemTheme = 'system_theme';
 
   final String _labelUsername = 'username';
   final String _labelTheme = 'theme';
@@ -50,16 +51,19 @@ class SharedPreference {
     return SharedPreference._().delete(SharedPreference._()._labelUsername);
   }
 
-  static Future<ThemeData> getTheme() async {
+  static Future<ThemeMode> getTheme() async {
     String pref =
         await SharedPreference._().getString(SharedPreference._()._labelTheme);
+
     switch (pref) {
       case SharedPreference.labelLightTheme:
-        return ThemeData.light();
+        return ThemeMode.light;
       case SharedPreference.labelDarkTheme:
-        return ThemeData.dark();
+        return ThemeMode.dark;
+      case SharedPreference.labelSystemTheme:
+      case '':
       default:
-        return ThemeData();
+        return ThemeMode.system;
     }
   }
 
@@ -74,6 +78,18 @@ class SharedPreference {
   }
 
   static Future<bool> setSystemTheme() async {
-    return SharedPreference._().setString(SharedPreference._()._labelTheme, '');
+    return SharedPreference._().setString(
+        SharedPreference._()._labelTheme, SharedPreference.labelSystemTheme);
+  }
+
+  static Future<bool> setTheme(ThemeMode theme) async {
+    switch (theme) {
+      case ThemeMode.light:
+        return setLightTheme();
+      case ThemeMode.dark:
+        return setDarkTheme();
+      default:
+        return setSystemTheme();
+    }
   }
 }
