@@ -18,6 +18,7 @@ class ThemeClass {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     primaryColor: ThemeClass._()._lightPrimaryColor,
+
     // set the theme for color scheme
     colorScheme: const ColorScheme.light().copyWith(
       primary: ThemeClass._()._lightPrimaryColor,
@@ -35,11 +36,19 @@ class ThemeClass {
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
       ),
     ),
+
+    // set the navigation bar theme
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: ThemeClass._()._lightTertiaryColor,
+      indicatorColor: ThemeClass._()._lightPrimaryColor,
+      labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     primaryColor: ThemeClass._()._darkPrimaryColor,
+
     // set the theme for color scheme
     colorScheme: const ColorScheme.dark().copyWith(
       primary: ThemeClass._()._darkPrimaryColor,
@@ -56,6 +65,13 @@ class ThemeClass {
             MaterialStateProperty.all<Color>(ThemeClass._()._darkPrimaryColor),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
       ),
+    ),
+
+    // set the navigation bar theme
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: ThemeClass._()._darkTertiaryColor,
+      indicatorColor: ThemeClass._()._darkPrimaryColor,
+      labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
     ),
   );
 }

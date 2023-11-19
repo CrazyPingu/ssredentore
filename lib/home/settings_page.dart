@@ -5,8 +5,8 @@ import 'package:ssredentore/utilities/shared_preferences.dart';
 import 'package:ssredentore/utilities/routes.dart';
 
 class SettingsFragment extends StatefulWidget {
-  final ThemeData selectedTheme;
-  final void Function(ThemeData theme) onThemeChanged;
+  final ThemeMode selectedTheme;
+  final void Function(ThemeMode theme) onThemeChanged;
 
   const SettingsFragment(this.selectedTheme, this.onThemeChanged, {super.key});
 
@@ -15,7 +15,7 @@ class SettingsFragment extends StatefulWidget {
 }
 
 class _SettingsFragmentState extends State<SettingsFragment> {
-  ThemeData selectedTheme = ThemeData.dark();
+  ThemeMode selectedTheme = ThemeMode.system;
 
   @override
   void initState() {
@@ -41,10 +41,6 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                       SharedPreference.deleteLogin();
                       Routes.redirectToLogin(context);
                     },
-                    style: ElevatedButton.styleFrom(
-                      // backgroundColor: Colors.deepOrange,
-                      foregroundColor: Colors.white,
-                    ),
                     child: Text(AppLocalizations.of(context)!.logout),
                   ),
 
@@ -57,7 +53,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                   // Create a dropdown to select the theme
                   DropdownMenu<ThemeData>(
-                    initialSelection: selectedTheme,
+                    initialSelection: selectedTheme == ThemeMode.light
+                        ? ThemeData.dark()
+                        : ThemeData.light(),
                     dropdownMenuEntries: [
                       DropdownMenuEntry(
                           value: ThemeData.light(),
@@ -76,7 +74,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                     ],
                     onSelected: (ThemeData? theme) {
                       setState(() {
-                        selectedTheme = theme!;
+                        selectedTheme = theme == ThemeData.light()
+                            ? ThemeMode.light
+                            : ThemeMode.dark;
                         widget.onThemeChanged(selectedTheme);
                       });
                     },

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ssredentore/home/settings_page.dart';
 import 'package:ssredentore/library/custom_icons_icons.dart';
 import 'package:ssredentore/utilities/shared_preferences.dart';
+import 'package:ssredentore/utilities/themes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,15 +15,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   late PageController _pageController;
-  late ThemeData selectedTheme = ThemeData.dark();
+  ThemeMode selectedTheme = ThemeMode.system;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _selectedIndex);
 
-    SharedPreference.getTheme().then((value) {
-      selectedTheme = value;
+    setState(() {
+      SharedPreference.getTheme().then((value) {
+        value == ThemeData.dark()
+            ? selectedTheme = ThemeMode.dark
+            : selectedTheme = ThemeMode.light;
+      });
     });
   }
 
@@ -32,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void _onThemeChanged(ThemeData theme) {
+  void _onThemeChanged(ThemeMode theme) {
     setState(() {
       selectedTheme = theme;
     });
@@ -51,7 +56,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: selectedTheme,
+      theme: ThemeClass.lightTheme,
+      darkTheme: ThemeClass.darkTheme,
+      themeMode: selectedTheme,
       home: Localizations(
         locale: AppLocalizations.supportedLocales[0],
         delegates: AppLocalizations.localizationsDelegates,
@@ -66,7 +73,6 @@ class _HomePageState extends State<HomePage> {
             children: _widgetOptions,
           ),
           bottomNavigationBar: NavigationBar(
-            indicatorColor: Theme.of(context).colorScheme.secondary,
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
               _pageController.animateToPage(
