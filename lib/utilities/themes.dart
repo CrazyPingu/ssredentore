@@ -13,7 +13,7 @@ class ThemeClass {
   final Color _darkPrimaryColor = Colors.deepOrange;
   final Color _darkSecondaryColor = Colors.deepOrangeAccent;
   final Color _darkTertiaryColor = const Color.fromARGB(255, 42, 40, 40);
-  final Color _darkBackgroundColor = const Color.fromARGB(255, 42, 40, 40);
+  final Color _darkBackgroundColor = const Color.fromARGB(255, 30, 29, 29);
 
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
@@ -42,6 +42,11 @@ class ThemeClass {
       backgroundColor: ThemeClass._()._lightTertiaryColor,
       indicatorColor: ThemeClass._()._lightPrimaryColor,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+    ),
+
+    // set the card theme
+    cardTheme: CardTheme(
+      color: ThemeClass._()._lightTertiaryColor,
     ),
   );
 
@@ -72,6 +77,11 @@ class ThemeClass {
       backgroundColor: ThemeClass._()._darkTertiaryColor,
       indicatorColor: ThemeClass._()._darkPrimaryColor,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+    ),
+
+    // set the card theme
+    cardTheme: CardTheme(
+      color: ThemeClass._()._darkTertiaryColor,
     ),
   );
 }

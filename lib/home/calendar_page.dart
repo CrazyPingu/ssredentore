@@ -31,24 +31,29 @@ class _CalendarFragmentState extends State<CalendarFragment> {
       locale: AppLocalizations.supportedLocales[0],
       delegates: AppLocalizations.localizationsDelegates,
       child: Scaffold(
-        body: PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.vertical,
-          itemCount: calendar.length,
-          itemBuilder: (context, index) {
-            return Center(
-              child: EventCard(
-                city: calendar[index]['city'],
-                date: calendar[index]['date'],
-                field: calendar[index]['field'],
-                scoreTeam1: calendar[index]['scoreTeam1'],
-                scoreTeam2: calendar[index]['scoreTeam2'],
-                team1: calendar[index]['team1'],
-                team2: calendar[index]['team2'],
-                time: calendar[index]['time'],
-              ),
-            );
-          },
+        body: Center(
+          child: PageView.builder(
+            controller: _pageController,
+            scrollDirection: Axis.vertical,
+            itemCount: calendar.length,
+            itemBuilder: (context, index) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  EventCard(
+                    city: calendar[index]['city'],
+                    date: calendar[index]['date'],
+                    field: calendar[index]['field'],
+                    scoreTeam1: calendar[index]['scoreTeam1'],
+                    scoreTeam2: calendar[index]['scoreTeam2'],
+                    team1: calendar[index]['team1'],
+                    team2: calendar[index]['team2'],
+                    time: calendar[index]['time'],
+                  )
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -80,11 +85,9 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      // Customize the card appearance as needed
       child: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('City: $city'),
             Text('Date: $date'),
