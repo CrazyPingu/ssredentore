@@ -1,10 +1,13 @@
 {
   "already_have_account": "Already have an account?",
   "calendar": "Calendar",
+  "city": "City",
   "confirm_password": "Confirm Password",
   "dark_theme": "Dark theme",
+  "date": "Date",
   "dont_have_account": "Don't have an account?",
   "empty_fields": "Username and password cannot be empty",
+  "field": "Field",
   "follow_system_theme": "Follow system theme",
   "home": "Home",
   "light_theme": "Light theme",
@@ -18,6 +21,7 @@
   "select_theme": "Select theme",
   "settings": "Settings",
   "signup": "Sign up",
+  "time": "Time",
   "user_already_exists": "User already exists",
   "user_created": "User created",
   "username": "Username"

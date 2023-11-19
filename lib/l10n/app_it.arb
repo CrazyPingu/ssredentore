@@ -1,10 +1,13 @@
 {
   "already_have_account": "Hai giá un account?",
   "calendar": "Calendario",
+  "city": "Città",
   "confirm_password": "Conferma Password",
   "dark_theme": "Tema scuro",
+  "date": "Data",
   "dont_have_account": "Non hai un account?",
   "empty_fields": "Nome utente e password non possono essere vuoti",
+  "field": "Campo",
   "follow_system_theme": "Segui il tema del sistema",
   "home": "Home",
   "light_theme": "Tema chiaro",
@@ -18,6 +21,7 @@
   "select_theme": "Seleziona il tema",
   "settings": "Impostazioni",
   "signup": "Registrati",
+  "time": "Orario",
   "user_already_exists": "Utente già esistente",
   "user_created": "Utente creato",
   "username": "Nome utente"
