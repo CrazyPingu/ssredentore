@@ -75,10 +75,19 @@ class QueryFirebase {
       map['time'] = element['time'].toString();
       map['city'] = element['city'].toString();
       map['field'] = element['field'].toString();
-      map['team1'] = element['team1'].toString();
-      map['team2'] = element['team2'].toString();
-      map['scoreTeam1'] = element['scoreTeam1'].toString();
-      map['scoreTeam2'] = element['scoreTeam2'].toString();
+
+      if (element['team1'].toString().toLowerCase() == 'ss redentore asd') {
+        map['team1'] = element['team1'].toString();
+        map['team2'] = element['team2'].toString();
+        map['scoreTeam1'] = element['scoreTeam1'].toString();
+        map['scoreTeam2'] = element['scoreTeam2'].toString();
+      } else {
+        map['team1'] = element['team2'].toString();
+        map['team2'] = element['team1'].toString();
+        map['scoreTeam1'] = element['scoreTeam2'].toString();
+        map['scoreTeam2'] = element['scoreTeam1'].toString();
+      }
+
       calendar.add(map);
     }
 
