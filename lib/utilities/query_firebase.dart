@@ -53,4 +53,25 @@ class QueryFirebase {
         .set({'username': username, 'password': password, 'token': 100});
     return true;
   }
+
+  static Future<List<Map<String, String?>>> getCalendar() async {
+    final query = await FirebaseFirestore.instance.collection('match').get();
+
+    final List<Map<String, String?>> calendar = List.empty(growable: true);
+
+    for (final element in query.docs) {
+      final Map<String, String?> map = {};
+      map['date'] = element['date'].toString();
+      map['time'] = element['time'].toString();
+      map['city'] = element['city'].toString();
+      map['field'] = element['field'].toString();
+      map['team1'] = element['team1'].toString();
+      map['team2'] = element['team2'].toString();
+      map['scoreTeam1'] = element['scoreTeam1'].toString();
+      map['scoreTeam2'] = element['scoreTeam2'].toString();
+      calendar.add(map);
+    }
+
+    return calendar;
+  }
 }

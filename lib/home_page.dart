@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ssredentore/home/calendar_page.dart';
 import 'package:ssredentore/home/settings_page.dart';
 import 'package:ssredentore/library/custom_icons_icons.dart';
 import 'package:ssredentore/utilities/routes.dart';
@@ -22,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _selectedIndex);
-
     SharedPreference.getTheme().then((value) {
       selectedTheme = value;
     });
@@ -45,9 +45,7 @@ class _HomePageState extends State<HomePage> {
     const Text(
       'Index 0: Home',
     ),
-    const Text(
-      'Index 1: Calendar',
-    ),
+    const CalendarFragment(),
     SettingsFragment(selectedTheme, _onThemeChanged, context),
   ];
 
