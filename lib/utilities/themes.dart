@@ -17,9 +17,11 @@ class ThemeClass {
 
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
+    primaryColor: ThemeClass._()._lightPrimaryColor,
     // set the theme for color scheme
     colorScheme: const ColorScheme.light().copyWith(
       primary: ThemeClass._()._lightPrimaryColor,
+      onPrimary: Colors.white,
       secondary: ThemeClass._()._lightSecondaryColor,
       tertiary: ThemeClass._()._lightTertiaryColor,
       background: ThemeClass._()._lightBackgroundColor,
@@ -37,9 +39,11 @@ class ThemeClass {
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
+    primaryColor: ThemeClass._()._darkPrimaryColor,
     // set the theme for color scheme
     colorScheme: const ColorScheme.dark().copyWith(
       primary: ThemeClass._()._darkPrimaryColor,
+      onPrimary: Colors.white,
       secondary: ThemeClass._()._darkSecondaryColor,
       tertiary: ThemeClass._()._darkTertiaryColor,
       background: ThemeClass._()._darkBackgroundColor,
