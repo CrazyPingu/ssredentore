@@ -27,33 +27,32 @@ class _CalendarFragmentState extends State<CalendarFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return Localizations(
-      locale: AppLocalizations.supportedLocales[0],
-      delegates: AppLocalizations.localizationsDelegates,
-      child: Scaffold(
-        body: Center(
-          child: PageView.builder(
-            controller: _pageController,
-            scrollDirection: Axis.vertical,
-            itemCount: calendar.length,
-            itemBuilder: (context, index) {
-              return Column(
+    return Scaffold(
+      body: Center(
+        child: PageView.builder(
+          controller: _pageController,
+          scrollDirection: Axis.vertical,
+          itemCount: calendar.length,
+          itemBuilder: (context, index) {
+            return Container(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   EventCard(
-                    city: calendar[index]['city'],
-                    date: calendar[index]['date'],
-                    field: calendar[index]['field'],
+                    city: calendar[index]['city']!,
+                    date: calendar[index]['date']!,
+                    field: calendar[index]['field']!,
                     scoreTeam1: calendar[index]['scoreTeam1'],
                     scoreTeam2: calendar[index]['scoreTeam2'],
-                    team1: calendar[index]['team1'],
-                    team2: calendar[index]['team2'],
-                    time: calendar[index]['time'],
+                    team1: calendar[index]['team1']!,
+                    team2: calendar[index]['team2']!,
+                    time: calendar[index]['time']!,
                   )
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -61,43 +60,84 @@ class _CalendarFragmentState extends State<CalendarFragment> {
 }
 
 class EventCard extends StatelessWidget {
-  final String? city;
-  final String? date;
-  final String? field;
+  final String city;
+  final String date;
+  final String field;
   final String? scoreTeam1;
   final String? scoreTeam2;
-  final String? team1;
-  final String? team2;
-  final String? time;
+  final String team1;
+  final String team2;
+  final String time;
 
   const EventCard({
     super.key,
-    this.city,
-    this.date,
-    this.field,
+    required this.city,
+    required this.date,
+    required this.field,
     this.scoreTeam1,
     this.scoreTeam2,
-    this.team1,
-    this.team2,
-    this.time,
+    required this.team1,
+    required this.team2,
+    required this.time,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text('City: $city'),
-            Text('Date: $date'),
-            Text('Field: $field'),
-            Text('Score Team 1: $scoreTeam1'),
-            Text('Score Team 2: $scoreTeam2'),
-            Text('Team 1: $team1'),
-            Text('Team 2: $team2'),
-            Text('Time: $time'),
-          ],
+    return Localizations(
+      locale: AppLocalizations.supportedLocales[0],
+      delegates: AppLocalizations.localizationsDelegates,
+      child: Card(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(city),
+                  Text('${AppLocalizations.of(context)!.date}: $date'),
+                ],
+              ),
+              const SizedBox(height: 10.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('${AppLocalizations.of(context)!.time}: $time'),
+                ],
+              ),
+              const SizedBox(height: 30.0),
+              Align(
+                alignment: Alignment.center,
+                child: Text('${AppLocalizations.of(context)!.field}: $field',
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              const SizedBox(height: 30.0),
+
+              // Create a row to show the score
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(team1),
+                      Text(scoreTeam1!),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(team2),
+                      Text(scoreTeam2!),
+                    ],
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30.0),
+            ],
+          ),
         ),
       ),
     );
